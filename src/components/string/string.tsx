@@ -28,7 +28,7 @@ export const StringComponent: React.FC = () => {
       const array: any[] = input.split('').map((item) => {
         return { 
           data: item,
-          state:ElementStates.Default
+          state: ElementStates.Default
         }
       });
 
