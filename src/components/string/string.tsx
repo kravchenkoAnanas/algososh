@@ -82,7 +82,7 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title="Строка">
       <form action="" onSubmit={ submit }>
         <div className={ stringStyle.form_container }>
-          <Input maxLength={11} isLimitText={true} onChange={onChange}></Input>
+          <Input maxLength={11} isLimitText={true} onChange={onChange} value={input}></Input>
           <Button
             type="submit"
             text={"Развернуть"}
