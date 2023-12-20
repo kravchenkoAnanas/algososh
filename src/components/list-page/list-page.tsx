@@ -230,28 +230,35 @@ export const ListPage: React.FC = () => {
         </div>
       </div>
       <div
-          style={{ height: '300px', maxWidth: '100%', paddingTop: '2%', margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2.5%' }}
+          style={{ height: '300px', maxWidth: '100%', paddingTop: '2%', margin: 'auto', display: 'flex', justifyContent: 'center' }}
       >
         {arrayToAnimate && arrayToAnimate.map((item, index) => {
-          return <>
-            <Circle
-              key={v4()} 
-              index={index}
-              letter={item['data']}
-              state={item['state']}
-              head={item['smallUpperData'] !== null
-                ?  <Circle key={v4()} letter={item['smallUpperData']} state={ElementStates.Changing} isSmall={true}></Circle> 
-                : index === 0 ? 'head' : null
+          return (
+            <div
+              className=""
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+              key={index}
+            >
+              <Circle
+                index={index}
+                letter={item['data']}
+                state={item['state']}
+                head={item['smallUpperData'] !== null
+                  ?  <Circle letter={item['smallUpperData']} state={ElementStates.Changing} isSmall={true}></Circle> 
+                  : index === 0 ? 'head' : null
+                }
+                tail={item['smallLowerData'] !== null
+                  ? <Circle letter={item['smallLowerData']} state={ElementStates.Changing} isSmall={true}></Circle>
+                  : index === arrayToAnimate.length - 1 ? 'tail' : null
+                }
+              ></Circle>
+              {index !== arrayToAnimate.length - 1 &&
+                <div className="" style={{ padding: "0 1.5em" }}>
+                  <ArrowIcon></ArrowIcon>
+                </div>
               }
-              tail={item['smallLowerData'] !== null
-                ? <Circle key={v4()} letter={item['smallLowerData']} state={ElementStates.Changing} isSmall={true}></Circle>
-                : index === arrayToAnimate.length - 1 ? 'tail' : null
-              }
-            ></Circle>
-            {index !== arrayToAnimate.length - 1 &&
-              <ArrowIcon key={v4()}></ArrowIcon>
-            }
-          </>
+            </div>
+          )
         })}
       </div>
     </SolutionLayout>

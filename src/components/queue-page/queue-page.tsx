@@ -4,96 +4,75 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
+import { Queue } from "../../structers/queue";
 
+interface IQueueItem {
+  data: string | null;
+  state: ElementStates;
+}
 
 export const QueuePage: React.FC = () => {
-  const [isLoader, setIsLoder] = useState(false);
-  const [action, setAction] = useState(""); // push / pop
-  const [input, setInput] = useState('');
-  const [arrayToAnimate, setArrayToAnimate] = useState<any[]>(Array(7).fill({
+  const initialItem: IQueueItem = {
       data: null,
       state: ElementStates.Default,
-  }));
-  const [headIdx, setHeadIdx] = useState<number | null>(null);
-  const [tailIdx, setTailIdx] = useState<number | null>(null);
+  }
+  const [isLoader, setIsLoder] = useState(false);
+  const [action, setAction] = useState("");
+  const [input, setInput] = useState("");
+  const [queue, setQueue] = useState<Queue<IQueueItem>>(new Queue<IQueueItem>(
+    Array<IQueueItem>(7).fill(initialItem)
+  ));
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
-  const onClkickPush = (e: any) => {
-    if (!input || !Number(input) || tailIdx === arrayToAnimate.length - 1) {
+  const onClkickPush = () => {
+    if (!input || !Number(input) || queue.isFull()) {
       return;
     }
 
     let inputSelector = document.getElementById('input') as HTMLInputElement;
     inputSelector.value = '';
 
-    let newTailIdx = null;
+    const newQueue = new Queue<IQueueItem>(queue.elements(), queue.getHeadIdx(), queue.getTailIdx());
+    newQueue.enqueue({ data: input, state: ElementStates.Changing });
+    setQueue(newQueue);
 
-    if (tailIdx === null) {
-      newTailIdx = 0;
-      setHeadIdx(0);
-    } else if (tailIdx !== arrayToAnimate.length - 1) {
-      newTailIdx = tailIdx + 1
-    }
-
-    const array: any[] = arrayToAnimate.slice();
-    array[newTailIdx ?? 0] = {data: input, state: ElementStates.Changing};
-    setTailIdx(newTailIdx);
-    setArrayToAnimate(array);
     setIsLoder(true);
     setAction("push");
     setInput("");
   };
   
-  const onClkickPop = (e: any) => {
-    if (headIdx === null) {
+  const onClkickPop = () => {
+    if (queue.isEmpty()) {
       return;
     }
 
-    const array: any[] = arrayToAnimate.slice();
-    array[headIdx ?? 0]['state'] = ElementStates.Changing;
-    setArrayToAnimate(array);
+    const newQueue = new Queue<IQueueItem>(queue.elements(), queue.getHeadIdx(), queue.getTailIdx());
+    newQueue.elements()[newQueue.getHeadIdx() ?? 0]['state'] = ElementStates.Changing;
+    setQueue(newQueue);
 
     setIsLoder(true);
     setAction("pop");
   };
 
-  const onClkickDrop = (e: any) => {
-    setArrayToAnimate(Array(7).fill({
-      data: null,
-      state: ElementStates.Default,
-    }));
-    setHeadIdx(null);
-    setTailIdx(null); 
+  const onClkickDrop = () => {
+    setQueue(new Queue<IQueueItem>(Array<IQueueItem>(7).fill(initialItem)));
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (isLoader) {
-        if (action === "push") {
-          arrayToAnimate[tailIdx ?? 0]['state'] = ElementStates.Default;
-        } else if (action === "pop") {
-          const array: any[] = arrayToAnimate.slice();
-          array[headIdx ?? 0]['data'] = null;
-          array[headIdx ?? 0]['state'] = ElementStates.Default;
+        const newQueue = new Queue<IQueueItem>(queue.elements(), queue.getHeadIdx(), queue.getTailIdx());
 
-          let newHeadIdx = null;
-          if (headIdx === null) {
-            newHeadIdx = 0;
-            setTailIdx(0);
-          } else if (headIdx !== arrayToAnimate.length - 1) {
-            if (headIdx === tailIdx) {
-              setTailIdx(null);
-              newHeadIdx = headIdx
-            } else {
-              newHeadIdx = headIdx + 1;
-            }
-          }
-          
-          setArrayToAnimate(array);
-          setHeadIdx(newHeadIdx);
+        if (action === "push") {
+          newQueue.elements()[newQueue.getTailIdx() ?? 0]['state'] = ElementStates.Default;
+        } else if (action === "pop") {
+          newQueue.elements()[newQueue.getHeadIdx() ?? 0]['data'] = null;
+          newQueue.elements()[newQueue.getHeadIdx() ?? 0]['state'] = ElementStates.Default;
+          newQueue.dequeue();
+          setQueue(newQueue);
         } 
         setIsLoder(false);
       }
@@ -102,7 +81,7 @@ export const QueuePage: React.FC = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [isLoader, arrayToAnimate]);
+  }, [isLoader, queue]);
 
   return (
     <SolutionLayout title="Очередь">
@@ -131,7 +110,7 @@ export const QueuePage: React.FC = () => {
             text={"Удалить"}
             onClick={onClkickPop}
             isLoader={isLoader && action === "pop"}
-            disabled={isLoader && action !== "pop" || headIdx === null}
+            disabled={isLoader && action !== "pop" || queue.isEmpty()}
           ></Button>
         </div>
         <div className="" style={{ display: 'flex', gap: '5%' }}>
@@ -139,7 +118,7 @@ export const QueuePage: React.FC = () => {
             type="button"
             text={"Очистить"}
             onClick={onClkickDrop}
-            disabled={isLoader || headIdx === null}
+            disabled={isLoader || queue.isEmpty()}
           ></Button>
         </div>
       </div>
@@ -147,14 +126,14 @@ export const QueuePage: React.FC = () => {
           className=""
           style={{ maxWidth: '50%', paddingTop: '10%', margin: 'auto', display: 'flex', alignItems: 'end', justifyContent: 'center', gap: '2.5%' }}
       >
-        {arrayToAnimate && arrayToAnimate.map((item, index) => {
+        {queue.elements() && queue.elements().map((item, index) => {
           return <Circle
             key={index} 
             index={index}
-            letter={item['data']}
+            letter={item['data'] ?? ""}
             state={item['state']}
-            head={index === headIdx ? "head" : ""}
-            tail={index === tailIdx ? "tail" : ""}
+            head={!queue.isEmpty() && index === queue.getHeadIdx() ? "head" : ""}
+            tail={!queue.isEmpty() && index === queue.getTailIdx() ? "tail" : ""}
           ></Circle>
         })}
       </div>

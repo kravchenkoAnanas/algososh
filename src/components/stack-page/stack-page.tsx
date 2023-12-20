@@ -4,19 +4,24 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
+import { Stack } from "../../structers/stack";
 
+interface IStackItem {
+  data: string;
+  state: ElementStates;
+}
 
 export const StackPage: React.FC = () => {
-  const [isLoader, setIsLoder] = useState(false);
-  const [action, setAction] = useState(""); // push / pop
-  const [input, setInput] = useState('');
-  const [arrayToAnimate, setArrayToAnimate] = useState<any[]>([]);
+  const [isLoader, setIsLoader] = useState(false);
+  const [action, setAction] = useState("");
+  const [input, setInput] = useState("");
+  const [stack, setStack] = useState<Stack<IStackItem>>(new Stack<IStackItem>());
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
-  const onClkickPush = (e: any) => {
+  const onClkickPush = () => {
     if (!input || !Number(input)) {
       return;
     }
@@ -24,53 +29,55 @@ export const StackPage: React.FC = () => {
     let inputSelector = document.getElementById('input') as HTMLInputElement;
     inputSelector.value = '';
 
-    const array: any[] = arrayToAnimate.slice();
-    array.push({data: input, state: ElementStates.Changing});
-    setArrayToAnimate(array);
-    setIsLoder(true);
+    const newStack = new Stack<IStackItem>(stack.elements());
+    newStack.push({ data: input, state: ElementStates.Changing });
+
+    setStack(newStack);
+    setIsLoader(true);
     setAction("push");
 
     setInput("");
   };
   
-  const onClkickPop = (e: any) => {
-    if (!arrayToAnimate.length) {
+  const onClkickPop = () => {
+    if (stack.size() === 0) {
       return;
     }
 
-    const array: any[] = arrayToAnimate.slice();
-    array[array.length - 1]['state'] = ElementStates.Changing;
-    setArrayToAnimate(array);
-    
-    setIsLoder(true);
+    const newStack = new Stack<IStackItem>(stack.elements());
+    newStack.elements()[newStack.size() - 1].state = ElementStates.Changing;
+    setStack(newStack);
+    setIsLoader(true);
     setAction("pop");
   };
 
-  const onClkickDrop = (e: any) => {
-    if (!arrayToAnimate.length) {
+  const onClkickDrop = () => {
+    if (stack.size() === 0) {
       return;
     }
-    setArrayToAnimate([]);
+    setStack(new Stack<IStackItem>());
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (isLoader) {
         if (action === "push") {
-          arrayToAnimate[arrayToAnimate.length - 1]['state'] = ElementStates.Default;
+          const newStack = new Stack<IStackItem>(stack.elements());
+          newStack.elements()[stack.size() - 1].state = ElementStates.Default;
+          setStack(new Stack<IStackItem>(newStack.elements()));
         } else if (action === "pop") {
-          const array: any[] = arrayToAnimate.slice();
-          array.pop();
-          setArrayToAnimate(array);
-        } 
-        setIsLoder(false);
+          const newStack = new Stack<IStackItem>(stack.elements());
+          newStack.pop();
+          setStack(newStack);
+        }
+        setIsLoader(false);
       }
     }, 500);
 
     return () => {
       clearInterval(interval);
     };
-  }, [isLoader, arrayToAnimate]);
+  }, [isLoader, stack]);
 
   return (
     <SolutionLayout title="Стек">
@@ -104,8 +111,8 @@ export const StackPage: React.FC = () => {
           className=""
           style={{ maxWidth: '50%', paddingTop: '10%', margin: 'auto', display: 'flex', alignItems: 'end', justifyContent: 'center', gap: '2.5%' }}
       >
-        {arrayToAnimate && arrayToAnimate.map((item, index) => {
-          const head = index === arrayToAnimate.length - 1 ? "top" : "";
+        {stack.store && stack.store.map((item, index) => {
+          const head = index === stack.size() - 1 ? "top" : "";
           return <Circle
             key={index} 
             index={index}
