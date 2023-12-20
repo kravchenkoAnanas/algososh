@@ -51,21 +51,22 @@ export const StringComponent: React.FC = () => {
       if (isLoader) {
         if (start < end) {
           const array: IItem[] = arrayToAnimate.slice();
+          swap<IItem>(array, start, end);
 
-          swap(array, start, end);
+          array[start]['state'] = ElementStates.Modified;
+          array[end]['state'] = ElementStates.Modified;
 
-          arrayToAnimate[start]['state'] = ElementStates.Modified;
-          arrayToAnimate[end]['state'] = ElementStates.Modified;
-
-          arrayToAnimate[start + 1]['state'] = ElementStates.Changing;
-          arrayToAnimate[end - 1]['state'] = ElementStates.Changing;
+          array[start + 1]['state'] = ElementStates.Changing;
+          array[end - 1]['state'] = ElementStates.Changing;
           
           setStart(start + 1);
           setEnd(end - 1);
           setArrayToAnimate(array);
         } else {
-          arrayToAnimate[start]['state'] = ElementStates.Modified;
-          arrayToAnimate[end]['state'] = ElementStates.Modified;
+          const array: IItem[] = arrayToAnimate.slice();
+          array[start]['state'] = ElementStates.Modified;
+          array[end]['state'] = ElementStates.Modified;
+          setArrayToAnimate(array);
 
           setIsLoder(false);
         }
@@ -75,7 +76,7 @@ export const StringComponent: React.FC = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [isLoader, start, end]);
+  }, [isLoader, arrayToAnimate]);
 
   return (
     <SolutionLayout title="Строка">
@@ -86,14 +87,14 @@ export const StringComponent: React.FC = () => {
             type="submit"
             text={"Развернуть"}
             isLoader={isLoader}
+            disabled={isLoader || !input}
           >
           </Button>
         </div>
         <div className={ stringStyle.animation_container } >
-          {arrayToAnimate && arrayToAnimate.map((item, index) => {
+          {arrayToAnimate && arrayToAnimate.map((item) => {
             return <Circle letter={ item['data'] } state={ item['state'] }></Circle>
-          })
-          }
+          })}
         </div>
       </form>
     </SolutionLayout>

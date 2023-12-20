@@ -84,12 +84,9 @@ export const SortingPage: React.FC = () => {
       }
     }
     setSortAlgoType(sortAlgo ?? 'selection');
-    console.log("type ", sortType, " algoType ", sortAlgoType);
   };
 
   const bubbleSortAnimationStep = (array: IItem[]) => {
-    console.log("Bubble i ", i, " j ", j);
-  
     if (j > 0) {
       array[j - 1]['state'] = ElementStates.Default;
       array[j]['state'] = ElementStates.Default;
@@ -119,8 +116,6 @@ export const SortingPage: React.FC = () => {
   };
 
   const selectionSortAnimationStep = (array: IItem[]) => {
-    console.log("Selection i ", i, " j ", j, " sortIndex ", sortIndex);
-
     array[j - 1]['state'] = ElementStates.Default;
     array[i]['state'] = ElementStates.Changing;
 
@@ -193,6 +188,7 @@ export const SortingPage: React.FC = () => {
               value={"selection"}
               checked={ sortAlgoType === "selection" }
               onChange={() => { onClick("selection") }}
+              disabled={ isLoader }
             ></RadioInput>
             <RadioInput
               label={"Пузырёк"}
@@ -200,19 +196,20 @@ export const SortingPage: React.FC = () => {
               value={"bubble"}
               checked={ sortAlgoType === "bubble" }
               onChange={() => { onClick("bubble") }}
+              disabled={ isLoader }
             ></RadioInput>
           </div>
           <div className={ sortingPageStyle.type_container }>
             <div onClick={() => { onClick("asc") }}>
               <Button
-                  id={"asc"}
-                  type="submit"
-                  text={"По возрастанию"}
-                  sorting={Direction.Ascending}
-                  name={"asc"}
-                  value={"asc"}
-                  >
-                </Button>
+                id={"asc"}
+                type="submit"
+                text={"По возрастанию"}
+                sorting={Direction.Ascending}
+                name={"asc"}
+                value={"asc"}
+                disabled={ isLoader }
+              ></Button>
             </div>
             <div onClick={() => { onClick("desc") }}>
               <Button
@@ -222,8 +219,8 @@ export const SortingPage: React.FC = () => {
                 sorting={Direction.Descending}
                 name={"desc"}
                 value={"desc"}
-                >
-              </Button>
+                disabled={ isLoader }
+              ></Button>
             </div>
           </div>
           <Button
@@ -231,8 +228,8 @@ export const SortingPage: React.FC = () => {
             text={"Новый массив"}
             value={"newArray"}
             onClick={ () => { onClick("newArray") } }
-            >
-          </Button>
+            disabled={ isLoader }
+          ></Button>
         </div>
       </form>
       <div className={ sortingPageStyle.animation_container }>

@@ -23,10 +23,6 @@ export const StackPage: React.FC = () => {
   };
 
   const onClkickPush = () => {
-    if (!input || !Number(input)) {
-      return;
-    }
-
     (document.getElementById('input') as HTMLInputElement).value = "";
 
     const newStack = new Stack<IStackItem>(stack.elements());
@@ -35,15 +31,10 @@ export const StackPage: React.FC = () => {
     setStack(newStack);
     setIsLoader(true);
     setAction("push");
-
     setInput("");
   };
   
   const onClkickPop = () => {
-    if (stack.size() === 0) {
-      return;
-    }
-
     const newStack = new Stack<IStackItem>(stack.elements());
     newStack.elements()[newStack.size() - 1].state = ElementStates.Changing;
     setStack(newStack);
@@ -90,18 +81,23 @@ export const StackPage: React.FC = () => {
             text={"Добавить"}
             onClick={onClkickPush}
             isLoader={isLoader && action === "push"}
-            disabled={isLoader && action !== "push"}
+            disabled={isLoader && action !== "push" || !input}
           ></Button>
           <Button
             type="button"
             text={"Удалить"}
             onClick={onClkickPop}
             isLoader={isLoader && action === "pop"}
-            disabled={isLoader && action !== "pop"}
+            disabled={isLoader && action !== "pop" || !stack.size()}
           ></Button>
         </div>
         <div className={ stackPageStyle.btn_container }>
-          <Button type="button" text={"Очистить"} onClick={onClkickDrop} disabled={isLoader}></Button>
+          <Button
+            type="button"
+            text={"Очистить"}
+            onClick={onClkickDrop}
+            disabled={isLoader || !stack.size()}
+          ></Button>
         </div>
       </div>
       <div className={ stackPageStyle.animation_container }>

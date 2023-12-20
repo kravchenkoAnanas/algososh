@@ -73,12 +73,6 @@ export const ListPage: React.FC = () => {
   };
 
   const onClkickPush = (type: string) => {
-    if (!input || !Number(input) ||
-        type === 'index' && !Number(inputIdx) ||
-        Number(inputIdx) >= list.size()) {
-      return;
-    }
-
     setDirection(type);
     (document.getElementById('inputValue') as HTMLInputElement).value = "";
     const newList = new LinkedList<ILinkedLIstItem>(list.toArray());
@@ -99,9 +93,6 @@ export const ListPage: React.FC = () => {
   };
   
   const onClkickPop = (type: string) => {
-    if (!list.size()) {
-      return;
-    }
     setDirection(type);
     if (type !== "index") {
       const newList = new LinkedList<ILinkedLIstItem>(list.toArray());
@@ -182,7 +173,7 @@ export const ListPage: React.FC = () => {
                 smallUpperData: null
               }
             });
-            setDirection(''); // that is for going to the (action === "push2" && direction !== 'index') part 
+            setDirection('');
             setList(new LinkedList<ILinkedLIstItem>(array));
           } else {
             const newList = new LinkedList<ILinkedLIstItem>(list.toArray());
@@ -253,6 +244,7 @@ export const ListPage: React.FC = () => {
               isLimitText={true}
               placeholder={"Введите значение"}
               onChange={onChangeInput}
+              disabled={isLoader}
             ></Input>
           </div>
           <Button
@@ -274,16 +266,14 @@ export const ListPage: React.FC = () => {
             text={"Удалить из head"}
             onClick={() => onClkickPop("front") }
             isLoader={isLoader && action === "pop" && direction === "front"}
-            // disabled={isLoader && action !== "pop" && direction !== "front" || !arrayToAnimate.length}
-            disabled={isLoader && action !== "pop" && direction !== "front"}
+            disabled={isLoader || !list.size()}
           ></Button>
           <Button
             type="button"
             text={"Удалить из tail"}
             onClick={() => onClkickPop("back") }
             isLoader={isLoader && action === "pop" && direction === "back"}
-            // disabled={isLoader && action !== "pop" && direction !== "back" || !arrayToAnimate.length}
-            disabled={isLoader && action !== "pop" && direction !== "back"}
+            disabled={isLoader || !list.size()}
           ></Button>
         </div>
         <div
@@ -292,9 +282,11 @@ export const ListPage: React.FC = () => {
           <div>
             <Input
               id={"inputIdx"}
+              type={"number"}
               placeholder={"Введите индекс"}
               onChange={onChangeInputIdx}
               style={{ minWidth: '20%'}}
+              disabled={isLoader}
             ></Input>
           </div>
 
@@ -303,7 +295,8 @@ export const ListPage: React.FC = () => {
             text={"Добавить по индексу"}
             onClick={() => onClkickPush("index")}
             isLoader={isLoader && action === "push" && direction === "index"}
-            disabled={isLoader && action !== "push" && direction === "index" || !inputIdx || !input}
+            disabled={isLoader && action !== "push" && direction === "index" ||
+              !inputIdx || !input || !Number(input)}
             style={{ minWidth: '35%'}}
           ></Button>
           <Button
@@ -311,7 +304,8 @@ export const ListPage: React.FC = () => {
             text={"Удалить по индексу"}
             onClick={() => onClkickPop("index")}
             isLoader={isLoader && action === "pop" && direction === "index"}
-            disabled={isLoader && action !== "pop" && direction === "index" || !inputIdx}
+            disabled={isLoader && action !== "pop" && direction === "index" ||
+              !inputIdx || !Number(inputIdx) || Number(inputIdx) >= list.size()}
             style={{ minWidth: '35%'}}
           ></Button>
         </div>

@@ -29,10 +29,6 @@ export const QueuePage: React.FC = () => {
   };
 
   const onClkickPush = () => {
-    if (!input || !Number(input) || queue.isFull()) {
-      return;
-    }
-
     let inputSelector = document.getElementById('input') as HTMLInputElement;
     inputSelector.value = '';
 
@@ -46,12 +42,11 @@ export const QueuePage: React.FC = () => {
   };
   
   const onClkickPop = () => {
-    if (queue.isEmpty()) {
-      return;
-    }
-
     const newQueue = new Queue<IQueueItem>(queue.elements(), queue.getHeadIdx(), queue.getTailIdx());
-    newQueue.elements()[newQueue.getHeadIdx() ?? 0]['state'] = ElementStates.Changing;
+    const idx = newQueue.getHeadIdx();
+    if (idx) {
+      newQueue.elements()[idx]['state'] = ElementStates.Changing;
+    }
     setQueue(newQueue);
 
     setIsLoder(true);
@@ -101,7 +96,7 @@ export const QueuePage: React.FC = () => {
             text={"Добавить"}
             onClick={onClkickPush}
             isLoader={isLoader && action === "push"}
-            disabled={isLoader && action !== "push" || !input}
+            disabled={isLoader && action !== "push" || !input || queue.isFull()}
           ></Button>
           <Button
             type="button"

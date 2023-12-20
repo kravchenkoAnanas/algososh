@@ -15,7 +15,6 @@ export const FibonacciPage: React.FC = () => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!isLoader) {
       setInput(e.target.value);
-      console.log(e.target.value);
     }
   };
 
@@ -23,7 +22,6 @@ export const FibonacciPage: React.FC = () => {
     e.preventDefault();
     if (!isLoader) {
       setIsLoder(true);
-
       setArrayToAnimate([1]);
       setN(Number(input));
       setI(0);
@@ -35,14 +33,12 @@ export const FibonacciPage: React.FC = () => {
       if (isLoader) {
         if (i < n) {
           const array: number[] = arrayToAnimate.slice();
-          console.log('animation', array, " i ", i);
           let val = 1;
           if (i !== 0) {
             val = array[i] + array[i - 1];
           }
           setI(i + 1);
           array.push(val);
-          console.log(array);
           setArrayToAnimate(array);
         } else {
           setIsLoder(false);
@@ -63,6 +59,7 @@ export const FibonacciPage: React.FC = () => {
           <Button
             type="submit"
             text={"Рассчитать"}
+            disabled={isLoader || !input || !Number(input) || Number(input) > 19}
           >
           </Button>
         </div>
@@ -70,6 +67,7 @@ export const FibonacciPage: React.FC = () => {
           {arrayToAnimate && arrayToAnimate.map((item, index) => {
             return (
                 <Circle
+                  key={ index }
                   index={ index }
                   letter={ item.toString() }
                 >
