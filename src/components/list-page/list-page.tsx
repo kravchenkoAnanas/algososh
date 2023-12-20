@@ -73,6 +73,14 @@ export const ListPage: React.FC = () => {
   };
 
   const onClkickPush = (type: string) => {
+    if (type === "index" && Number(inputIdx) === 0) {
+      type = "front";
+    } else {
+      if (type === "index" && Number(inputIdx) === list.size()) {
+        type = "back";
+      }
+    }
+
     setDirection(type);
     (document.getElementById('inputValue') as HTMLInputElement).value = "";
     const newList = new LinkedList<ILinkedLIstItem>(list.toArray());
