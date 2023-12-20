@@ -1,7 +1,19 @@
-export function swap<T>(arr: T[], i: number, j: number) {
-  const temp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = temp;
+export const getFibbonachiNumber = (index: number): number[] => {
+  const output = [1];
+  for (let i = 1; i <= index; i++) {
+    let val = 1;
+    if (i !== 1) {
+      val = output[i - 1] + output[i - 2];
+    }
+    output.push(val);
+  }
+  return output;
+} 
+
+export const swap = <T>(arr: { data: T }[], i: number, j: number) => {
+  const temp = arr[i]['data'];
+  arr[i]['data'] = arr[j]['data'];
+  arr[j]['data'] = temp;
 };
 
 export const randomArr = (minLen: number = 3, maxLen: number = 17): number[] => {

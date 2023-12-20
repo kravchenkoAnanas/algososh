@@ -23,20 +23,15 @@ export class Queue<T> {
   }
 
   dequeue() {
-    if (this.isEmpty()) {
-      this.headIdx = 0;
-      this.tailIdx = 0;
-    } else if (this.headIdx !== this.size - 1) {
-      if (this.headIdx === this.tailIdx) {
-        this.tailIdx = null;
-      } else {
-        this.headIdx = (this.headIdx ?? 0) + 1;
-      }
+    if (this.headIdx === this.tailIdx) {
+      this.tailIdx = null;
+    } else {
+      this.headIdx = (this.headIdx ?? 0) + 1;
     }
   }
   
   clear() {
-    this.store = Array<T>(7);
+    this.store = Array<T>(this.size);
   }
 
   elements() {
@@ -44,7 +39,7 @@ export class Queue<T> {
   }
 
   isEmpty() {
-    return this.headIdx === null && this.tailIdx === null;
+    return this.headIdx === null || this.tailIdx === null;
   }
   
   isFull() {

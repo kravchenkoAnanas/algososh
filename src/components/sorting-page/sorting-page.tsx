@@ -93,7 +93,7 @@ export const SortingPage: React.FC = () => {
     }
 
     if (cmp(array[j + 1]['data'], array[j]['data'])) {
-      swap(array, j, j + 1);
+      swap<number>(array, j, j + 1);
     }
     array[j]['state'] = ElementStates.Changing;
     array[j + 1]['state'] = ElementStates.Changing;

@@ -51,7 +51,7 @@ export const StringComponent: React.FC = () => {
       if (isLoader) {
         if (start < end) {
           const array: IItem[] = arrayToAnimate.slice();
-          swap<IItem>(array, start, end);
+          swap<string>(array, start, end);
 
           array[start]['state'] = ElementStates.Modified;
           array[end]['state'] = ElementStates.Modified;
