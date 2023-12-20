@@ -1,0 +1,15 @@
+.form_container {
+    max-width: 50%;
+    margin: auto;
+    display: flex;
+    gap: 2.5%;
+}
+
+.animation_container {
+    max-width: 50%;
+    padding-top: 5%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    gap: 2.5%;
+}

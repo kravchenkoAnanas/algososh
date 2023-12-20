@@ -5,6 +5,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { swap } from "../../utils";
+import stringStyle from './string.module.css'
 
 interface IItem {
   data: string;
@@ -79,7 +80,7 @@ export const StringComponent: React.FC = () => {
   return (
     <SolutionLayout title="Строка">
       <form action="" onSubmit={ submit }>
-        <div style={{ maxWidth: '50%', margin: 'auto', display: 'flex', gap: '2.5%' }}>
+        <div className={ stringStyle.form_container }>
           <Input maxLength={11} isLimitText={true} onChange={onChange}></Input>
           <Button
             type="submit"
@@ -88,7 +89,7 @@ export const StringComponent: React.FC = () => {
           >
           </Button>
         </div>
-        <div className="" style={{ paddingTop: '5%', margin: 'auto', display: 'flex', justifyContent: 'center', gap: '2.5%' }}>
+        <div className={ stringStyle.animation_container } >
           {arrayToAnimate && arrayToAnimate.map((item, index) => {
             return <Circle letter={ item['data'] } state={ item['state'] }></Circle>
           })

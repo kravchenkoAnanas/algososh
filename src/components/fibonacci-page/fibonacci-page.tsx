@@ -3,7 +3,7 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
-import { ElementStates } from "../../types/element-states";
+import fibonacciPageStyle from './fibonacci-page.module.css'
 
 export const FibonacciPage: React.FC = () => {
   const [i, setI] = useState(0);
@@ -58,7 +58,7 @@ export const FibonacciPage: React.FC = () => {
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
       <form action="" onSubmit={ submit }>
-        <div style={{ maxWidth: '50%', margin: 'auto', display: 'flex', gap: '2.5%' }}>
+        <div className={ fibonacciPageStyle.form_container }>
           <Input max={19} isLimitText={true} type={"number"} onChange={onChange}></Input>
           <Button
             type="submit"
@@ -66,10 +66,7 @@ export const FibonacciPage: React.FC = () => {
           >
           </Button>
         </div>
-        <div
-          className=""
-          style={{ maxWidth: '50%', paddingTop: '5%', margin: 'auto', display: 'flex', justifyContent: 'center', gap: '2.5%' }}
-        >
+        <div className={ fibonacciPageStyle.animation_container }>
           {arrayToAnimate && arrayToAnimate.map((item, index) => {
             return (
                 <Circle

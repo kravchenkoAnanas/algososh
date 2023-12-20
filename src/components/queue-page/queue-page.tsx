@@ -5,6 +5,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { Queue } from "../../structers/queue";
+import queuePageStyle from './queue-page.module.css'
 
 interface IQueueItem {
   data: string | null;
@@ -85,10 +86,7 @@ export const QueuePage: React.FC = () => {
 
   return (
     <SolutionLayout title="Очередь">
-      <div
-        className=""
-        style={{ maxWidth: '70%', margin: 'auto', display: 'flex', justifyContent: 'center', gap: '5%' }}
-      >
+      <div className={ queuePageStyle.layout_container }>
         <Input
           id={"input"}
           maxLength={4}
@@ -97,7 +95,7 @@ export const QueuePage: React.FC = () => {
           onChange={onChangeInput}
         ></Input>
 
-        <div style={{ display: 'flex', gap: '5%' }}>
+        <div className={ queuePageStyle.button }>
           <Button
             type="button"
             text={"Добавить"}
@@ -113,7 +111,7 @@ export const QueuePage: React.FC = () => {
             disabled={isLoader && action !== "pop" || queue.isEmpty()}
           ></Button>
         </div>
-        <div className="" style={{ display: 'flex', gap: '5%' }}>
+        <div className={ queuePageStyle.button }>
           <Button
             type="button"
             text={"Очистить"}
@@ -122,10 +120,7 @@ export const QueuePage: React.FC = () => {
           ></Button>
         </div>
       </div>
-      <div
-          className=""
-          style={{ maxWidth: '50%', paddingTop: '10%', margin: 'auto', display: 'flex', alignItems: 'end', justifyContent: 'center', gap: '2.5%' }}
-      >
+      <div className={ queuePageStyle.animation_container }>
         {queue.elements() && queue.elements().map((item, index) => {
           return <Circle
             key={index} 

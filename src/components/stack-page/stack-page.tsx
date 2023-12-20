@@ -5,6 +5,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { Stack } from "../../structers/stack";
+import stackPageStyle from './stack-page.module.css'
 
 interface IStackItem {
   data: string;
@@ -80,13 +81,10 @@ export const StackPage: React.FC = () => {
 
   return (
     <SolutionLayout title="Стек">
-      <div
-        className=""
-        style={{ maxWidth: '70%', margin: 'auto', display: 'flex', justifyContent: 'center', gap: '5%' }}
-      >
+      <div className={ stackPageStyle.layout_container }>
         <Input id={"input"} maxLength={4} isLimitText={true} onChange={onChangeInput}></Input>
 
-        <div style={{ display: 'flex', gap: '5%' }}>
+        <div className={ stackPageStyle.btn_container }>
           <Button
             type="button"
             text={"Добавить"}
@@ -102,14 +100,11 @@ export const StackPage: React.FC = () => {
             disabled={isLoader && action !== "pop"}
           ></Button>
         </div>
-        <div className="" style={{ display: 'flex', gap: '5%' }}>
+        <div className={ stackPageStyle.btn_container }>
           <Button type="button" text={"Очистить"} onClick={onClkickDrop} disabled={isLoader}></Button>
         </div>
       </div>
-      <div
-          className=""
-          style={{ maxWidth: '50%', paddingTop: '10%', margin: 'auto', display: 'flex', alignItems: 'end', justifyContent: 'center', gap: '2.5%' }}
-      >
+      <div className={ stackPageStyle.animation_container }>
         {stack.store && stack.store.map((item, index) => {
           const head = index === stack.size() - 1 ? "top" : "";
           return <Circle

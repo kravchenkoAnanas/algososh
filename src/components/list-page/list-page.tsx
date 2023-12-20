@@ -7,6 +7,7 @@ import { ElementStates } from "../../types/element-states";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { LinkedList, LinkedListNode } from "../../structers/linked-list";
 import { randomArr } from "../../utils";
+import listPageStyle from "./list-page.module.css"
 
 interface ILinkedLIstItem {
   data: string;
@@ -19,11 +20,7 @@ const getArrayToAnimate = (list: LinkedList<ILinkedLIstItem>) => {
   const listArray = list.toArray();
   return listArray.map((item, index) => {
     return (
-      <div
-        className=""
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}
-        key={index}
-      >
+      <div key={index} className={ listPageStyle.list_item }>
         <Circle
           index={index}
           letter={item['data']}
@@ -38,7 +35,7 @@ const getArrayToAnimate = (list: LinkedList<ILinkedLIstItem>) => {
           }
         ></Circle>
         {index !== listArray.length - 1 &&
-          <div className="" style={{ padding: "0 1.5em" }}>
+          <div className={ listPageStyle.arrow }>
             <ArrowIcon></ArrowIcon>
           </div>
         }

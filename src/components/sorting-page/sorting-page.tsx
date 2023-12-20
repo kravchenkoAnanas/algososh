@@ -6,6 +6,7 @@ import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 import { ElementStates } from "../../types/element-states";
 import { randomArr, swap } from "../../utils";
+import sortingPageStyle from './sorting-page.module.css'
 
 interface IItem {
   data: number;
@@ -184,14 +185,8 @@ export const SortingPage: React.FC = () => {
   return (
     <SolutionLayout title="Сортировка массива">
       <form action="" onSubmit={ submit }>
-        <div
-          className=""
-          style={{ maxWidth: '70%', margin: 'auto', display: 'flex', justifyContent: 'center', gap: '5%' }}
-        >
-          <div
-            className=""
-            style={{ alignItems: 'center', display: 'flex', gap: '10%' }}
-          >
+        <div className={ sortingPageStyle.form_container }>
+          <div className={ sortingPageStyle.algo_container }>
             <RadioInput
               label={"Выбор"}
               name={"sortType"}
@@ -207,10 +202,7 @@ export const SortingPage: React.FC = () => {
               onChange={() => { onClick("bubble") }}
             ></RadioInput>
           </div>
-          <div
-            className=""
-            style={{ minWidth: '40%', display: 'flex', gap: '5%' }}
-          >
+          <div className={ sortingPageStyle.type_container }>
             <div onClick={() => { onClick("asc") }}>
               <Button
                   id={"asc"}
@@ -243,10 +235,7 @@ export const SortingPage: React.FC = () => {
           </Button>
         </div>
       </form>
-      <div
-          className=""
-          style={{ minHeight: '300px', maxWidth: '50%', paddingTop: '5%', margin: 'auto', display: 'flex', alignItems: 'end', justifyContent: 'center', gap: '2.5%' }}
-      >
+      <div className={ sortingPageStyle.animation_container }>
         {arrayToAnimate && arrayToAnimate.map((item, index) => {
             return <Column
               key={index} 
