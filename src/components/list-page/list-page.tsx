@@ -304,7 +304,7 @@ export const ListPage: React.FC = () => {
             onClick={() => onClkickPush("index")}
             isLoader={isLoader && action === "push" && direction === "index"}
             disabled={isLoader && action !== "push" && direction === "index" ||
-              !inputIdx || !input || !Number(input)}
+              !inputIdx || !input || !Number(input) || Number(inputIdx) > list.size()}
             style={{ minWidth: '35%'}}
           ></Button>
           <Button
