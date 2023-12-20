@@ -26,8 +26,7 @@ export const StackPage: React.FC = () => {
       return;
     }
 
-    let inputSelector = document.getElementById('input') as HTMLInputElement;
-    inputSelector.value = '';
+    (document.getElementById('input') as HTMLInputElement).value = "";
 
     const newStack = new Stack<IStackItem>(stack.elements());
     newStack.push({ data: input, state: ElementStates.Changing });

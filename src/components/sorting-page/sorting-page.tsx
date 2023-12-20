@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 import { ElementStates } from "../../types/element-states";
-import { randomArr } from "../../utils";
+import { randomArr, swap } from "../../utils";
 
-const swap = (arr: any[], i: number, j: number) => {
-  const temp = arr[i]['data'];
-  arr[i]['data'] = arr[j]['data'];
-  arr[j]['data'] = temp;
-};
+interface IItem {
+  data: number;
+  state: ElementStates;
+}
 
 export const SortingPage: React.FC = () => {
   const [isLoader, setIsLoder] = useState<boolean>(false);
-  const [arrayToAnimate, setArrayToAnimate] = useState<any[]>(randomArr().map((item) => {
+  const [arrayToAnimate, setArrayToAnimate] = useState<IItem[]>(randomArr().map((item) => {
     return {
       data: item,
       state: ElementStates.Default
@@ -38,7 +37,7 @@ export const SortingPage: React.FC = () => {
     }
   };
 
-  const onClick = (type: any) => {
+  const onClick = (type: string) => {
     if (["selection", "bubble"].includes(type)) {
       setSortAlgoType(type);
     } else if (["asc", "desc"].includes(type)) {
@@ -61,27 +60,33 @@ export const SortingPage: React.FC = () => {
       setIsLoder(true);
     } else if (type === "newArray") {
       setIsLoder(false);
-      setArrayToAnimate(randomArr());
+      setArrayToAnimate(randomArr().map((item) => {
+        return {
+          data: item,
+          state: ElementStates.Default
+        };
+      }));
     } else {
       console.log("onClick error type", type)
     }
   };
 
-  const submit = (e: any) => {
+  const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let sortAlgo: any = null;
-    const radios: any = document.getElementsByName("sortType");
-    for(let i = 0; i < radios.length; i++) {
-      if (radios[i].checked) {
-        sortAlgo = radios[i].value;
+    let sortAlgo: string | null = null;
+    const radios = document.getElementsByName("sortType");
+    for (let i = 0; i < radios.length; i++) {
+      const btn = radios[i] as HTMLInputElement;
+      if (btn.checked) {
+        sortAlgo = btn.value;
       }
     }
-    setSortAlgoType(sortAlgo);
+    setSortAlgoType(sortAlgo ?? 'selection');
     console.log("type ", sortType, " algoType ", sortAlgoType);
   };
 
-  const bubbleSortAnimationStep = (array: any[]) => {
+  const bubbleSortAnimationStep = (array: IItem[]) => {
     console.log("Bubble i ", i, " j ", j);
   
     if (j > 0) {
@@ -112,7 +117,7 @@ export const SortingPage: React.FC = () => {
     }
   };
 
-  const selectionSortAnimationStep = (array: any[]) => {
+  const selectionSortAnimationStep = (array: IItem[]) => {
     console.log("Selection i ", i, " j ", j, " sortIndex ", sortIndex);
 
     array[j - 1]['state'] = ElementStates.Default;
@@ -151,7 +156,7 @@ export const SortingPage: React.FC = () => {
     const interval = setInterval(() => {
       if (isLoader) {
         if (true) {
-          const array: any[] = arrayToAnimate.slice();
+          const array: IItem[] = arrayToAnimate.slice();
           if (sortAlgoType === "bubble") {
             bubbleSortAnimationStep(array);
           } else if (sortAlgoType === "selection") {
