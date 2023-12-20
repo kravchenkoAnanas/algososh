@@ -88,12 +88,13 @@ export const StringComponent: React.FC = () => {
             text={"Развернуть"}
             isLoader={isLoader}
             disabled={isLoader || !input}
+            value={input}
           >
           </Button>
         </div>
         <div className={ stringStyle.animation_container } >
-          {arrayToAnimate && arrayToAnimate.map((item) => {
-            return <Circle letter={ item['data'] } state={ item['state'] }></Circle>
+          {arrayToAnimate && arrayToAnimate.map((item, index) => {
+            return <Circle key={ index } letter={ item['data'] } state={ item['state'] }></Circle>
           })}
         </div>
       </form>

@@ -73,7 +73,13 @@ export const StackPage: React.FC = () => {
   return (
     <SolutionLayout title="Стек">
       <div className={ stackPageStyle.layout_container }>
-        <Input id={"input"} maxLength={4} isLimitText={true} onChange={onChangeInput}></Input>
+        <Input
+          id={"input"}
+          maxLength={4}
+          isLimitText={true}
+          onChange={onChangeInput}
+          value={input}
+        ></Input>
 
         <div className={ stackPageStyle.btn_container }>
           <Button

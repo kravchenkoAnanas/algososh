@@ -88,6 +88,7 @@ export const QueuePage: React.FC = () => {
           isLimitText={true}
           placeholder={"Введите значение"}
           onChange={onChangeInput}
+          value={input}
         ></Input>
 
         <div className={ queuePageStyle.button }>

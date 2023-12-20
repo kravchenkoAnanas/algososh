@@ -208,8 +208,9 @@ export const SortingPage: React.FC = () => {
                 sorting={Direction.Ascending}
                 name={"asc"}
                 value={"asc"}
+                isLoader={ isLoader && sortType == 'asc' }
                 disabled={ isLoader }
-              ></Button>
+                ></Button>
             </div>
             <div onClick={() => { onClick("desc") }}>
               <Button
@@ -219,6 +220,7 @@ export const SortingPage: React.FC = () => {
                 sorting={Direction.Descending}
                 name={"desc"}
                 value={"desc"}
+                isLoader={ isLoader && sortType == 'desc' }
                 disabled={ isLoader }
               ></Button>
             </div>

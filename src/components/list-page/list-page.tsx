@@ -253,6 +253,7 @@ export const ListPage: React.FC = () => {
               placeholder={"Введите значение"}
               onChange={onChangeInput}
               disabled={isLoader}
+              value={input}
             ></Input>
           </div>
           <Button
@@ -295,6 +296,7 @@ export const ListPage: React.FC = () => {
               onChange={onChangeInputIdx}
               style={{ minWidth: '20%'}}
               disabled={isLoader}
+              value={inputIdx}
             ></Input>
           </div>
 
@@ -304,7 +306,8 @@ export const ListPage: React.FC = () => {
             onClick={() => onClkickPush("index")}
             isLoader={isLoader && action === "push" && direction === "index"}
             disabled={isLoader && action !== "push" && direction === "index" ||
-              !inputIdx || !input || !Number(input) || Number(inputIdx) > list.size()}
+              !inputIdx || !input || !Number(input) ||
+              Number(inputIdx) < 0 || Number(inputIdx) > list.size()}
             style={{ minWidth: '35%'}}
           ></Button>
           <Button
@@ -313,7 +316,8 @@ export const ListPage: React.FC = () => {
             onClick={() => onClkickPop("index")}
             isLoader={isLoader && action === "pop" && direction === "index"}
             disabled={isLoader && action !== "pop" && direction === "index" ||
-              !inputIdx || !Number(inputIdx) || Number(inputIdx) >= list.size()}
+              !inputIdx || !Number(inputIdx) ||
+              Number(inputIdx) < 0 || Number(inputIdx) >= list.size()}
             style={{ minWidth: '35%'}}
           ></Button>
         </div>
