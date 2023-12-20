@@ -5,17 +5,7 @@ import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 import { ElementStates } from "../../types/element-states";
-
-const randomArr = (minLen: number = 3, maxLen: number = 17) => {
-  const length = Math.max(minLen, Math.floor(Math.random() * maxLen));
-  const array =  Array.from({length: length}, () => Math.floor(Math.random() * 100));
-  return array.map((item) => {
-    return {
-      data: item,
-      state: ElementStates.Default
-    };
-  });
-}
+import { randomArr } from "../../utils";
 
 const swap = (arr: any[], i: number, j: number) => {
   const temp = arr[i]['data'];
@@ -25,7 +15,13 @@ const swap = (arr: any[], i: number, j: number) => {
 
 export const SortingPage: React.FC = () => {
   const [isLoader, setIsLoder] = useState<boolean>(false);
-  const [arrayToAnimate, setArrayToAnimate] = useState<any[]>(randomArr());
+  const [arrayToAnimate, setArrayToAnimate] = useState<any[]>(randomArr().map((item) => {
+    return {
+      data: item,
+      state: ElementStates.Default
+    };
+  }));
+
   const [sortType, setSortType] = useState<string>(''); // asc / desc
   const [sortAlgoType, setSortAlgoType] = useState<string>('selection'); // selection / bubble
   const [sortIndex, setSortIndex] = useState<number>(0);
