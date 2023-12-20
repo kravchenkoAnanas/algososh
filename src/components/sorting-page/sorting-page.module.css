@@ -1,0 +1,30 @@
+.form_container {
+  max-width: 70%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+}
+
+.algo_container {
+  align-items: center;
+  display: flex;
+  gap: 10%;
+}
+
+.type_container {
+  min-width: 40%;
+  display: flex;
+  gap: 5%;
+}
+
+.animation_container {
+  min-height: 300px;
+  max-width: 50%;
+  padding-top: 5%;
+  margin: auto;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 2.5%;
+}
