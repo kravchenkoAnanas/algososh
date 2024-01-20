@@ -191,10 +191,10 @@ export const SortingPage: React.FC = () => {
         }
       } else {
         setIsLoder(false);
-        if (sortAlgoType == "selection") {
+        if (sortAlgoType === "selection") {
           setI(0);
           setJ(1);
-        } else if (sortAlgoType == "bubble") {
+        } else if (sortAlgoType === "bubble") {
           setI(0);
           setJ(0);
         }
@@ -241,7 +241,7 @@ export const SortingPage: React.FC = () => {
                 sorting={Direction.Ascending}
                 name={"asc"}
                 value={"asc"}
-                isLoader={ isLoader && sortType == 'asc' }
+                isLoader={ isLoader && sortType === 'asc' }
                 disabled={ isLoader }
                 ></Button>
             </div>
@@ -253,7 +253,7 @@ export const SortingPage: React.FC = () => {
                 sorting={Direction.Descending}
                 name={"desc"}
                 value={"desc"}
-                isLoader={ isLoader && sortType == 'desc' }
+                isLoader={ isLoader && sortType === 'desc' }
                 disabled={ isLoader }
               ></Button>
             </div>
