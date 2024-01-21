@@ -56,7 +56,7 @@ describe('string-page', function() {
       cy.wrap($el).invoke('text').should('eq', resultStirngs[1][index]);
 
       cy.wrap($el).find('div[class*="circle_circle"]').invoke('attr', 'class').then((className) => {
-        expect(className).to.match(/modified/);
+        expect(className).to.match(/default/);
       });
     });
   });

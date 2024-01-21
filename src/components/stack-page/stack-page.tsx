@@ -79,6 +79,7 @@ export const StackPage: React.FC = () => {
           isLimitText={true}
           onChange={onChangeInput}
           value={input}
+          data-testid="input"
         ></Input>
 
         <div className={ stackPageStyle.btn_container }>
@@ -88,6 +89,7 @@ export const StackPage: React.FC = () => {
             onClick={onClkickPush}
             isLoader={isLoader && action === "push"}
             disabled={isLoader && action !== "push" || !input}
+            data-testid="add"
           ></Button>
           <Button
             type="button"
@@ -95,6 +97,7 @@ export const StackPage: React.FC = () => {
             onClick={onClkickPop}
             isLoader={isLoader && action === "pop"}
             disabled={isLoader && action !== "pop" || !stack.size()}
+            data-testid="delete"
           ></Button>
         </div>
         <div className={ stackPageStyle.btn_container }>
@@ -103,10 +106,11 @@ export const StackPage: React.FC = () => {
             text={"Очистить"}
             onClick={onClkickDrop}
             disabled={isLoader || !stack.size()}
+            data-testid="clear"
           ></Button>
         </div>
       </div>
-      <div className={ stackPageStyle.animation_container }>
+      <div className={ stackPageStyle.animation_container } data-testid="result">
         {stack.store && stack.store.map((item, index) => {
           const head = index === stack.size() - 1 ? "top" : "";
           return <Circle

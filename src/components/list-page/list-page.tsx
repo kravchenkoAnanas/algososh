@@ -20,7 +20,7 @@ const getArrayToAnimate = (list: LinkedList<ILinkedLIstItem>) => {
   const listArray = list.toArray();
   return listArray.map((item, index) => {
     return (
-      <div key={index} className={ listPageStyle.list_item }>
+      <div key={index} className={ listPageStyle.list_item } data-testid="result">
         <Circle
           index={index}
           letter={item['data']}
@@ -127,7 +127,7 @@ export const ListPage: React.FC = () => {
       if (isLoader) {
         if (action === "push" && direction !== "index") {
           const newList = new LinkedList<ILinkedLIstItem>(list.toArray());
-          
+
           let node: ILinkedLIstItem | null = null;
           if (direction === "back" && newList.tail !== null) {
             node = newList.tail.value;
@@ -254,6 +254,7 @@ export const ListPage: React.FC = () => {
               onChange={onChangeInput}
               disabled={isLoader}
               value={input}
+              data-testid="input"
             ></Input>
           </div>
           <Button
@@ -262,6 +263,7 @@ export const ListPage: React.FC = () => {
             onClick={() => onClkickPush("front") }
             isLoader={isLoader && action === "push" && direction === "front"}
             disabled={isLoader && action !== "push" && direction !== "front" || !input}
+            data-testid="add-to-head"
             ></Button>
           <Button
             type="button"
@@ -269,6 +271,7 @@ export const ListPage: React.FC = () => {
             onClick={() => onClkickPush("back") }
             isLoader={isLoader && action === "push" && direction === "back"}
             disabled={isLoader && action !== "push" && direction !== "back" || !input}
+            data-testid="add-to-tail"
           ></Button>
           <Button
             type="button"
@@ -276,6 +279,7 @@ export const ListPage: React.FC = () => {
             onClick={() => onClkickPop("front") }
             isLoader={isLoader && action === "pop" && direction === "front"}
             disabled={isLoader || !list.size()}
+            data-testid="delete-from-head"
           ></Button>
           <Button
             type="button"
@@ -283,6 +287,7 @@ export const ListPage: React.FC = () => {
             onClick={() => onClkickPop("back") }
             isLoader={isLoader && action === "pop" && direction === "back"}
             disabled={isLoader || !list.size()}
+            data-testid="delete-from-tail"
           ></Button>
         </div>
         <div
@@ -297,6 +302,7 @@ export const ListPage: React.FC = () => {
               style={{ minWidth: '20%'}}
               disabled={isLoader}
               value={inputIdx}
+              data-testid="index"
             ></Input>
           </div>
 
@@ -309,6 +315,7 @@ export const ListPage: React.FC = () => {
               !inputIdx || !input || !Number(input) ||
               Number(inputIdx) < 0 || Number(inputIdx) > list.size()}
             style={{ minWidth: '35%'}}
+            data-testid="add-by-index"
           ></Button>
           <Button
             type="button"
@@ -319,6 +326,7 @@ export const ListPage: React.FC = () => {
               !inputIdx || !Number(inputIdx) ||
               Number(inputIdx) < 0 || Number(inputIdx) >= list.size()}
             style={{ minWidth: '35%'}}
+            data-testid="delete-by-index"
           ></Button>
         </div>
       </div>
