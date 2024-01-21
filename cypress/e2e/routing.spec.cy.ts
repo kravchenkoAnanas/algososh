@@ -1,6 +1,6 @@
 describe('app works correctly with routes', function() {
   before(function() {
-    cy.visit('http://localhost:3000');
+    cy.visit('');
   });
   
   it('should open main page by default', function() {
@@ -8,32 +8,32 @@ describe('app works correctly with routes', function() {
   });
   
   it('should open string page by default', function() {
-    cy.visit('http://localhost:3000/string');
+    cy.visit('string');
     cy.contains('Строка');
   });
 
   it('should open fibonacci page by default', function() {
-    cy.visit('http://localhost:3000/fibonacci');
+    cy.visit('fibonacci');
     cy.contains('Последовательность Фибоначчи');
   });
 
   it('should open sort page by default', function() {
-    cy.visit('http://localhost:3000/sorting');
+    cy.visit('sorting');
     cy.contains('Сортировка массива');
   });
 
   it('should open stack page by default', function() {
-    cy.visit('http://localhost:3000/stack');
+    cy.visit('stack');
     cy.contains('Стек');
   });
 
   it('should open queue page by default', function() {
-    cy.visit('http://localhost:3000/queue');
+    cy.visit('queue');
     cy.contains('Очередь');
   });
 
   it('should open list page by default', function() {
-    cy.visit('http://localhost:3000/list');
+    cy.visit('list');
     cy.contains('Связный список');
   });
 

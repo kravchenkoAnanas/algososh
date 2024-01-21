@@ -1,21 +1,23 @@
+import { ADD_BY_INDEX, ADD_TO_HEAD, ADD_TO_TAIL, DELETE_BY_INDEX, DELETE_FROM_HEAD, DELETE_FROM_TAIL, INDEX } from "./util";
+
 describe('list-page', function() {
     beforeEach(function() {
-      cy.visit('http://localhost:3000/list');
+      cy.visit('list');
     });
     
     it('button disabled', function() {
-      cy.get('[data-testid="add-to-head"]').should('be.disabled');
-      cy.get('[data-testid="add-to-tail"]').should('be.disabled');
-      cy.get('[data-testid="add-by-index"]').should('be.disabled');
-      cy.get('[data-testid="delete-by-index"]').should('be.disabled');
+      cy.get(ADD_TO_HEAD).should('be.disabled');
+      cy.get(ADD_TO_TAIL).should('be.disabled');
+      cy.get(ADD_BY_INDEX).should('be.disabled');
+      cy.get(DELETE_BY_INDEX).should('be.disabled');
 
       cy.get('[data-testid="input"]').type(123);
-      cy.get('[data-testid="add-to-head"]').should('not.be.disabled');
-      cy.get('[data-testid="add-to-tail"]').should('not.be.disabled');
+      cy.get(ADD_TO_HEAD).should('not.be.disabled');
+      cy.get(ADD_TO_TAIL).should('not.be.disabled');
       
-      cy.get('[data-testid="index"]').type(1);
-      cy.get('[data-testid="add-by-index"]').should('not.be.disabled');
-      cy.get('[data-testid="add-by-index"]').should('not.be.disabled');
+      cy.get(INDEX).type(1);
+      cy.get(ADD_BY_INDEX).should('not.be.disabled');
+      cy.get(ADD_BY_INDEX).should('not.be.disabled');
     });
 
     it('default input', function() {
@@ -27,7 +29,7 @@ describe('list-page', function() {
         const testInput = '7';
     
         cy.get('[data-testid="input"]').type(testInput);
-        cy.get('[data-testid="add-to-head"]').click();
+        cy.get(ADD_TO_HEAD).click();
 
         cy.get('[data-testid="result"]').children().first()
             .find('div[class*="circle_circle"]').first()
@@ -54,7 +56,7 @@ describe('list-page', function() {
         const testInput = '7';
     
         cy.get('[data-testid="input"]').type(testInput);
-        cy.get('[data-testid="add-to-tail"]').click();
+        cy.get(ADD_TO_TAIL).click();
 
         cy.get('[data-testid="result"]').children().last()
             .find('div[class*="circle_circle"]').last()
@@ -82,8 +84,8 @@ describe('list-page', function() {
         const testIdxInput = 1;
     
         cy.get('[data-testid="input"]').type(testInput);
-        cy.get('[data-testid="index"]').type(testIdxInput);
-        cy.get('[data-testid="add-by-index"]').click();
+        cy.get(INDEX).type(testIdxInput);
+        cy.get(ADD_BY_INDEX).click();
 
         cy.get('[data-testid="result"]').children().first()
             .find('div[class*="circle_circle"]').first()
@@ -127,7 +129,7 @@ describe('list-page', function() {
     });
 
     it('check delete-from-head animation', function() {
-        cy.get('[data-testid="delete-from-head"]').click();
+        cy.get(DELETE_FROM_HEAD).click();
 
         cy.get('[data-testid="result"]').children().first()
             .find('div[class*="circle_circle"]').first()
@@ -141,7 +143,7 @@ describe('list-page', function() {
     });
 
     it('check delete-from-tail animation', function() {
-        cy.get('[data-testid="delete-from-tail"]').click();
+        cy.get(DELETE_FROM_TAIL).click();
 
         cy.get('[data-testid="result"]').children().last()
             .find('div[class*="circle_circle"]').first()
@@ -157,8 +159,8 @@ describe('list-page', function() {
     it('check delete-by-index animation', function() {
         const testIdxInput = 1;
     
-        cy.get('[data-testid="index"]').type(testIdxInput);
-        cy.get('[data-testid="delete-by-index"]').click();
+        cy.get(INDEX).type(testIdxInput);
+        cy.get(DELETE_BY_INDEX).click();
 
         cy.wait(500);
 

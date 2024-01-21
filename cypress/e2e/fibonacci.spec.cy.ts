@@ -1,6 +1,6 @@
 describe('fibonacci-page', function() {
     beforeEach(function() {
-      cy.visit('http://localhost:3000/fibonacci');
+      cy.visit('fibonacci');
     });
     
     it('button disabled', function() {
