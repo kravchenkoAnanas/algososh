@@ -6,16 +6,22 @@ import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { swap } from "../../utils";
 import stringStyle from './string.module.css'
+import { assert } from "../../utils";
 
 interface IItem {
   data: string;
   state: ElementStates;
 }
 
+export const stringAlgo = (str: string): string => {
+  return str.split('').reverse().join('');
+}
+
 export const StringComponent: React.FC = () => {
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(0);
   const [input, setInput] = useState('');
+  const [answer, setAnswer] = useState('');
   const [isLoader, setIsLoder] = useState(false);
   const [arrayToAnimate, setArrayToAnimate] = useState<IItem[]>([]);
 
@@ -43,6 +49,7 @@ export const StringComponent: React.FC = () => {
       setStart(0);
       setEnd(array.length - 1);
       setArrayToAnimate(array);
+      setAnswer(stringAlgo(input));
     }
   };
 
@@ -69,6 +76,8 @@ export const StringComponent: React.FC = () => {
           setArrayToAnimate(array);
 
           setIsLoder(false);
+          const result = array.map((item) => item['data']).join('');
+          assert(answer === result, 'Algorithm string check');
         }
       }
     }, 1000);
@@ -82,17 +91,24 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title="Строка">
       <form action="" onSubmit={ submit }>
         <div className={ stringStyle.form_container }>
-          <Input maxLength={11} isLimitText={true} onChange={onChange} value={input}></Input>
+          <Input
+            maxLength={11}
+            isLimitText={true}
+            onChange={onChange}
+            value={input}
+            data-testid="input">
+          </Input>
           <Button
             type="submit"
             text={"Развернуть"}
             isLoader={isLoader}
             disabled={isLoader || !input}
             value={input}
+            data-testid="button"
           >
           </Button>
         </div>
-        <div className={ stringStyle.animation_container } >
+        <div className={ stringStyle.animation_container } data-testid="result" >
           {arrayToAnimate && arrayToAnimate.map((item, index) => {
             return <Circle key={ index } letter={ item['data'] } state={ item['state'] }></Circle>
           })}

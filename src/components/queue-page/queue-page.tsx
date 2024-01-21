@@ -89,6 +89,7 @@ export const QueuePage: React.FC = () => {
           placeholder={"Введите значение"}
           onChange={onChangeInput}
           value={input}
+          data-testid="input"
         ></Input>
 
         <div className={ queuePageStyle.button }>
@@ -98,6 +99,7 @@ export const QueuePage: React.FC = () => {
             onClick={onClkickPush}
             isLoader={isLoader && action === "push"}
             disabled={isLoader && action !== "push" || !input || queue.isFull()}
+            data-testid="add"
           ></Button>
           <Button
             type="button"
@@ -105,6 +107,7 @@ export const QueuePage: React.FC = () => {
             onClick={onClkickPop}
             isLoader={isLoader && action === "pop"}
             disabled={isLoader && action !== "pop" || queue.isEmpty()}
+            data-testid="delete"
           ></Button>
         </div>
         <div className={ queuePageStyle.button }>
@@ -113,10 +116,11 @@ export const QueuePage: React.FC = () => {
             text={"Очистить"}
             onClick={onClkickDrop}
             disabled={isLoader || queue.isEmpty()}
+            data-testid="clear"
           ></Button>
         </div>
       </div>
-      <div className={ queuePageStyle.animation_container }>
+      <div className={ queuePageStyle.animation_container } data-testid="result">
         {queue.elements() && queue.elements().map((item, index) => {
           return <Circle
             key={index} 

@@ -20,3 +20,9 @@ export const randomArr = (minLen: number = 3, maxLen: number = 17): number[] => 
   const length = Math.max(minLen, Math.floor(Math.random() * maxLen));
   return Array.from({length: length}, () => Math.floor(Math.random() * 100));
 }
+
+export const assert = (condition: boolean, message: string): void => {
+  if (!condition) {
+      throw new Error(message || "Assertion failed");
+  }
+}
