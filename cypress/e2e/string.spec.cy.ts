@@ -1,4 +1,4 @@
-describe('app works correctly with routes', function() {
+describe('string-page', function() {
   beforeEach(function() {
     cy.visit('http://localhost:3000/string');
   });
